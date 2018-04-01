@@ -1,0 +1,5 @@
+numpy
+atari_py
+keras
+tensorflow-gpu
+opencv-python

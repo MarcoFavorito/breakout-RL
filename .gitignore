@@ -99,3 +99,15 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+
+# other stuff
+.idea
+Arcade-Learning-Environment
+demo.avi
+example.py
+Breakout.py
+BreakoutRA.py
+breakout_RL/agent_data*
+screens
+*.avi
