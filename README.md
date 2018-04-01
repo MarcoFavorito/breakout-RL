@@ -7,7 +7,7 @@ Using [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/):
 
     mkvirtualenv breakout-RL
     
-### ALE
+### ALE (deprecated)
 Install [ALE](https://github.com/mgbellemare/Arcade-Learning-Environment).
 
 On Ubuntu 16.04, the following steps should work:
