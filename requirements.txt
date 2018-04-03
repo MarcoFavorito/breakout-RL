@@ -3,3 +3,6 @@ atari_py
 keras
 tensorflow-gpu
 opencv-python
+git+https://github.com/MarcoFavorito/breakout-env@master#egg=breakout_env
+git+https://github.com/MarcoFavorito/pythogic@develop#egg=pythogic
+git+https://github.com/MarcoFavorito/pythomata@develop#egg=pythomata

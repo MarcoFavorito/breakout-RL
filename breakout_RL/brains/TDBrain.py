@@ -82,7 +82,7 @@ class TDBrain(Brain):
 
 
 class QLearning(TDBrain):
-    def __init__(self, n_actions, gamma=0.993, nsteps=500):
+    def __init__(self, n_actions, gamma=0.99, nsteps=200):
         super().__init__(n_actions, gamma, nsteps)
 
 

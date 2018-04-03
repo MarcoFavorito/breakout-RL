@@ -1,6 +1,7 @@
 import click
 from breakout_env.wrappers.observation_wrappers import *
 from breakout_env.wrappers.reward_wrappers import *
+from breakout_env.wrappers.wrappers import BreakoutRABUWrapper
 
 from Breakout import BreakoutS
 from BreakoutRA import BreakoutSRA, BreakoutNRA, BreakoutSRAExt
@@ -12,16 +13,18 @@ from breakout_RL.exploration_policies.RandomPolicyWithDecay import RandomPolicyW
 from breakout_RL.misc.Renderer import Renderer
 from breakout_RL.misc.StatsManager import StatsManager
 from breakout_RL.utils import ID2ACTION
+num_episodes = 10001
 
-num_episodes = 20001
 
 conf = {
     "observation": "number_discretized",
-    # "observation": "number",
+    "bricks_rows": 3,
+    'bricks_color': [200, 180, 160, 140, 120, 100][:3],
+    'bricks_reward': [6, 5, 4, 3, 2, 1][:3],
     "paddle_speed": 3,
     'paddle_width': 50,
     "ball_speed": [1, 2],
-    'max_step': 100000,
+    'max_step': 50000,
     'lifes': 1
 }
 
@@ -38,21 +41,23 @@ def main():
     # env.init(None)
 
     env = Breakout(conf)
-    env = RewardAutomataWrapper(BreakoutDiscreteStateWrapper(env))
+    env = BreakoutDiscreteStateWrapper(env)
+    env = BreakoutRABUWrapper(env)
+    # env = RewardAutomataWrapper(BreakoutDiscreteStateWrapper(env))
 
     # agent = RandomAgent([2, 3])
     # agent = SimpleAgent()
     # agent = NNAgent()
     # agent = SarsaAgent(env)
 
-    # agent = RLAgent(env, RandomPolicyWithDecay(env, 2), QLearning(2))
+    # agent = RLAgent(env, RandomPolicyWithDecay(2), QLearning(2))
     agent = RLAgent(env, RandomPolicyWithDecay(2), Sarsa(2))
 
     # filepath = "data/weights.p"
     filepath = "agent_data"
 
-    render = False
-    resume = False
+    render = True
+    resume = True
     if resume:
         agent.load(filepath)
 
@@ -86,12 +91,13 @@ def main():
                 renderer.update(env.render())
                 # import time
                 # time.sleep(0.01)
+
             t += 1
 
         agent.reset()
         stats.update(len(agent.brain.Q), total_reward)
         stats.print_summary(ep, t, len(agent.brain.Q), total_reward, agent.exploration_policy.epsilon)
-        if ep % 100 == 0:
+        if ep % 50 == 0:
             agent.save(filepath)
 
     agent.save(filepath)
